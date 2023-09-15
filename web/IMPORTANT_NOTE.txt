@@ -1,0 +1,6 @@
+
+CORS issue with profile picture:
+https://stackoverflow.com/questions/65849071/flutter-firebase-storage-cors-issue
+
+temporarily fixed:
+https://stackoverflow.com/questions/65630743/how-to-solve-flutter-web-api-cors-error-only-with-dart-code

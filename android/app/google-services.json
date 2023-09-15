@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "508799998980",
+    "project_id": "codeslice-a6b40",
+    "storage_bucket": "codeslice-a6b40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508799998980:android:3c1adf45bea31a72de2951",
+        "android_client_info": {
+          "package_name": "com.coolplaydev.mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508799998980-b69ele673nh16ucr7r0nib89diseirc2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpZo09QiCw1gCdy57pXcFJnM34lX8tq2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508799998980-b69ele673nh16ucr7r0nib89diseirc2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
