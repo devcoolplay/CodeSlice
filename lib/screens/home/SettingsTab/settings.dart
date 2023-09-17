@@ -9,6 +9,7 @@ import 'package:mobile_app/shared/constants.dart';
 
 import '../../../services/auth.dart';
 import '../../../shared/user_data.dart';
+import 'blablub.dart';
 import 'friends.dart';
 
 class Settings extends StatefulWidget {
@@ -33,6 +34,12 @@ class _SettingsState extends State<Settings> {
     void showFriendsPage() {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => const Friends())
+      );
+    }
+
+    void showAppearancePage() {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const AppearanceSettings())
       );
     }
 
@@ -116,7 +123,7 @@ class _SettingsState extends State<Settings> {
               trailing: Icon(Icons.chevron_right),
             ),
             onPressed: () {
-
+              showAppearancePage();
             },
           ),
           TextButton(
