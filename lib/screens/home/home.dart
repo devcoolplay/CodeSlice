@@ -20,6 +20,7 @@ import 'package:mobile_app/services/notification.dart';
 import '../../services/auth.dart';
 import '../../services/database.dart';
 import '../../shared/friends_list.dart';
+import '../../themes/dark_theme.dart';
 import 'CommunityTab/community.dart';
 import 'SnippetGeneratorTab/ai.dart';
 import 'package:mobile_app/screens/home/MySnippetsTab/my_snippets.dart';
@@ -284,8 +285,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         iconSize: 30.0,
         selectedColor: Color(0xff0c18fb),
         strokeColor: Color(0x300c18fb),
-        unSelectedColor: Colors.grey[600],
-        backgroundColor: Colors.white,
+        //unSelectedColor: Colors.grey[600],
+        backgroundColor: darkTheme.secondaryHeaderColor,
         borderRadius: Radius.circular(20.0),
         items: [
           CustomNavigationBarItem(

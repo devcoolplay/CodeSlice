@@ -8,6 +8,7 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: Colors.black54,
     foregroundColor: Colors.white,
   ),
+  secondaryHeaderColor: Colors.grey[800]!,
   colorScheme: ColorScheme.dark(
     background: Colors.black54,
     primary: Colors.grey[900]!,
