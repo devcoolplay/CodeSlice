@@ -70,7 +70,6 @@ class _SettingsState extends State<Settings> {
                   Text(
                     UserData.username,
                     style: const TextStyle(
-                      color: Colors.black87,
                       fontSize: 16.0,
                       //fontWeight: FontWeight.bold,
                     ),
@@ -81,8 +80,11 @@ class _SettingsState extends State<Settings> {
           ),
           TextButton(
             style: settingsTextButtonStyle,
-            child: const ListTile(
-              leading: Icon(CupertinoIcons.person),
+            child: ListTile(
+              leading: Icon(
+                color: Theme.of(context).iconTheme.color,
+                CupertinoIcons.person,
+              ),
               title: Text("Account"),
               //subtitle: Text("Change your personal user data such as your username"),
               trailing: Icon(Icons.chevron_right),
@@ -93,8 +95,11 @@ class _SettingsState extends State<Settings> {
           ),
           TextButton(
             style: settingsTextButtonStyle,
-            child: const ListTile(
-              leading: Icon (CupertinoIcons.person_2),
+            child: ListTile(
+              leading: Icon (
+                color: Theme.of(context).iconTheme.color,
+                CupertinoIcons.person_2
+              ),
               title: Text("Friends"),
               trailing: Icon(Icons.chevron_right),
             ),
@@ -104,8 +109,11 @@ class _SettingsState extends State<Settings> {
           ),
           TextButton(
             style: settingsTextButtonStyle,
-            child: const ListTile(
-              leading: Icon(CupertinoIcons.lock),
+            child: ListTile(
+              leading: Icon(
+                  color: Theme.of(context).iconTheme.color,
+                  CupertinoIcons.lock
+              ),
               title: Text("Privacy"),
               //subtitle: Text("Change your personal user data such as your username"),
               trailing: Icon(Icons.chevron_right),
@@ -116,8 +124,11 @@ class _SettingsState extends State<Settings> {
           ),
           TextButton(
             style: settingsTextButtonStyle,
-            child: const ListTile(
-              leading: Icon(Icons.color_lens_outlined),
+            child: ListTile(
+              leading: Icon(
+                  color: Theme.of(context).iconTheme.color,
+                  Icons.color_lens_outlined
+              ),
               title: Text("blablub"),
               //subtitle: Text("Change your personal user data such as your username"),
               trailing: Icon(Icons.chevron_right),
@@ -128,8 +139,11 @@ class _SettingsState extends State<Settings> {
           ),
           TextButton(
             style: settingsTextButtonStyle,
-            child: const ListTile(
-              leading: Icon(CupertinoIcons.info),
+            child: ListTile(
+              leading: Icon(
+                  color: Theme.of(context).iconTheme.color,
+                  CupertinoIcons.info
+              ),
               title: Text("About CodeSlice"),
               //subtitle: Text("Change your personal user data such as your username"),
               trailing: Icon(Icons.chevron_right),

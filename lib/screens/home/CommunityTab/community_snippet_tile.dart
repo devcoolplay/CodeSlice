@@ -11,6 +11,7 @@ import 'package:mobile_app/main.dart';
 import 'package:mobile_app/models/community_snippet.dart';
 import 'package:mobile_app/shared/constants.dart';
 import 'package:mobile_app/shared/profile_picture.dart';
+import 'package:mobile_app/themes/dark_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../services/auth.dart';
@@ -42,7 +43,7 @@ class CommunitySnippetTile extends StatelessWidget {
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
           child: Container(
-            color: selectedSnippetsProvider.selectedSnippets.contains(snippet.id) ? Colors.grey : null, // Change color to blue if this snippet is selected,,
+            color: selectedSnippetsProvider.selectedSnippets.contains(snippet.id) ? darkTheme.highlightColor : null, // Change color to blue if this snippet is selected,,
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: InkWell(
               onTap: () {
@@ -57,7 +58,9 @@ class CommunitySnippetTile extends StatelessWidget {
                 child: IgnorePointer(
                   ignoring: selectedSnippetsProvider.selectedSnippets.isNotEmpty ? true : false, // If selection mode, disable expansion tile
                   child: ExpansionTile(
-                    backgroundColor: selectedSnippetsProvider.selectedSnippets.contains(snippet.id) ? Colors.grey : null, // Change color to blue if this snippet is selected,
+                    textColor: darkTheme.highlightColor,
+                    iconColor: darkTheme.highlightColor,
+                    backgroundColor: selectedSnippetsProvider.selectedSnippets.contains(snippet.id) ? darkTheme.highlightColor : null, // Change color to blue if this snippet is selected,
                     leading: SizedBox(height: 40, width: 40, child: ProfilePicture(userId: snippet.from, size: 10.0)),
                     title: Text(snippet.name),
                     subtitle: Padding(
@@ -91,7 +94,7 @@ class CommunitySnippetTile extends StatelessWidget {
                                     snippet.description,
                                     style: const TextStyle(
                                       fontSize: 16.0,
-                                      color: Colors.black,
+                                      //color: ,
                                     ),
                                   ),
                                 ),
