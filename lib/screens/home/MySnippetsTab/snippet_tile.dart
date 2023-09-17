@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/models/snippet.dart';
 import 'package:mobile_app/shared/constants.dart';
+import 'package:mobile_app/themes/dark_theme.dart';
 import 'package:provider/provider.dart';
 
 class SnippetTile extends StatefulWidget {
@@ -35,7 +36,7 @@ class _SnippetTileState extends State<SnippetTile> {
       child: Card(
         margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
         child: Container(
-          color: selectedSnippetsProvider.selectedSnippets.contains(widget.snippet.id) ? Colors.grey : null, // Change color to grey if this snippet is selected,,
+          color: selectedSnippetsProvider.selectedSnippets.contains(widget.snippet.id) ? darkTheme.highlightColor : null, // Change color to grey if this snippet is selected,,
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: InkWell(
             onTap: () {
@@ -50,7 +51,9 @@ class _SnippetTileState extends State<SnippetTile> {
               child: IgnorePointer(
                 ignoring: selectedSnippetsProvider.selectedSnippets.isNotEmpty ? true : false, // If selection mode, disable expansion tile
                 child: ExpansionTile(
-                  backgroundColor: selectedSnippetsProvider.selectedSnippets.contains(widget.snippet.id) ? Colors.grey : null, // Change color to grey if this snippet is selected,
+                  textColor: darkTheme.highlightColor,
+                  iconColor: darkTheme.highlightColor,
+                  backgroundColor: selectedSnippetsProvider.selectedSnippets.contains(widget.snippet.id) ? darkTheme.highlightColor : null, // Change color to grey if this snippet is selected,
                   leading: Icon(availableLanguageIcons.containsKey(widget.snippet.language.toLowerCase()) ? availableLanguageIcons[widget.snippet.language.toLowerCase()] : availableLanguageIcons["other"]),
                   title: Text(widget.snippet.name),
                   subtitle: widget.snippet.description == "empty" ? Text(widget.snippet.language, style: const TextStyle(fontSize: 14.0)) :Column(
