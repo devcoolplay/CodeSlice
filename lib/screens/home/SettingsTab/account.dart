@@ -79,7 +79,6 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Account"),
@@ -131,9 +130,6 @@ class _AccountState extends State<Account> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp("[0-9\.a-zA-Z_]")),
                   ],
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
                   maxLength: 32,
                   controller: _usernameController,
                   enabled: _editUsername,
@@ -209,9 +205,6 @@ class _AccountState extends State<Account> {
                 subtitle: TextFormField(
                   decoration: settingsInputDecoration,
                   maxLines: 5,
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
                   maxLength: 128,
                   controller: _infoController,
                   enabled: _editInfo,

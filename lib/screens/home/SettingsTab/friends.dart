@@ -124,7 +124,6 @@ class _FriendsState extends State<Friends> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title: const Text("Friends"),
           centerTitle: true,
@@ -139,17 +138,11 @@ class _FriendsState extends State<Friends> {
               Tab(
                 child: Text(
                   "My Friends",
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
                 ),
               ),
               Tab(
                 child: Text(
                   "Requests",
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
                 ),
               ),
             ],

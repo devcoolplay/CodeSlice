@@ -11,7 +11,6 @@ class _AppearanceSettingsState extends State<AppearanceSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Text("Appearance"),
         centerTitle: true,

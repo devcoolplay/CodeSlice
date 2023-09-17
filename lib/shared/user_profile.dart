@@ -27,12 +27,10 @@ class _UserProfileState extends State<UserProfile> {
 
   late final SocialService _social = SocialService(uuid: _auth.userId);
 
-  final StorageService _storage = StorageService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(widget.appBarTitle),
         centerTitle: true,
@@ -64,9 +62,6 @@ class _UserProfileState extends State<UserProfile> {
                   decoration: settingsInputDecoration,
                   enabled: false,
                   controller: TextEditingController(text: widget.username),
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
                 ),
               ),
               FutureBuilder<String>(
@@ -92,9 +87,6 @@ class _UserProfileState extends State<UserProfile> {
                           enabled: false,
                           maxLines: 5,
                           controller: TextEditingController(text: snapshot.data!),
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
                         ),
                       );
                   }
@@ -108,6 +100,9 @@ class _UserProfileState extends State<UserProfile> {
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 40.0),
         child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primarySwatchColor,
+          ),
             onPressed: () {
               _social.sendFriendRequest(friendUsername: widget.username);
               Fluttertoast.showToast(

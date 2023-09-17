@@ -9,9 +9,8 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: SpinKitThreeBounce(
           color: Colors.grey,
           size: 20.0,
