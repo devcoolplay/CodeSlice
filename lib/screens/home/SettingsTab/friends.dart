@@ -63,7 +63,7 @@ class _FriendsState extends State<Friends> {
                           TextFormField(
                             controller: _nameController,
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp("[0-9\.a-zA-Z_]")),
+                              //FilteringTextInputFormatter.allow(RegExp("[0-9\.a-zA-Z_]")),
                             ],
                             decoration: authInputDecoration.copyWith(hintText: "Username"),
                             validator: (val) => val!.isEmpty ? "Please enter a username" : null,

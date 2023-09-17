@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'api_secrets.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -7,7 +8,7 @@ class ChatGPT {
   // Generate a code snippet
   Future<String> generateCodeSnippet(String prompt, String language) async {
     prompt += " in $language";
-    const apiKey = "putApiKeyHere";
+    const apiKey = openAIApiKey;
     const apiUrl = "https://api.openai.com/v1/chat/completions";
 
     final response = await http.post(

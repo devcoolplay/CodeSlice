@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:mobile_app/services/api_secrets.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,20 +50,7 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'putApiKeyHere',
-    appId: '1:508799998980:web:6d3d10f3722733dade2951',
-    messagingSenderId: '508799998980',
-    projectId: 'codeslice-a6b40',
-    authDomain: 'codeslice-a6b40.firebaseapp.com',
-    storageBucket: 'codeslice-a6b40.appspot.com',
-  );
+  static const FirebaseOptions web = firebaseWebOptions;
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'putApiKeyHere',
-    appId: '1:508799998980:android:3c1adf45bea31a72de2951',
-    messagingSenderId: '508799998980',
-    projectId: 'codeslice-a6b40',
-    storageBucket: 'codeslice-a6b40.appspot.com',
-  );
+  static const FirebaseOptions android = firebaseAndroidOptions;
 }
