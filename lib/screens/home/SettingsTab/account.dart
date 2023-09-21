@@ -108,7 +108,7 @@ class _AccountState extends State<Account> {
                     bottom: -10.0,
                     left: 65.0,
                     child: IconButton(
-                      color: Colors.black54,
+                      color: Theme.of(context).iconTheme.color,
                       icon: const Icon(Icons.image),
                       onPressed: _selectImageFromGallery,
                     ),

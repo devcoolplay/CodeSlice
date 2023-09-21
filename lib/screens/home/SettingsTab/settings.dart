@@ -87,7 +87,10 @@ class _SettingsState extends State<Settings> {
               ),
               title: Text("Account"),
               //subtitle: Text("Change your personal user data such as your username"),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: Theme.of(context).iconTheme.color,
+              ),
             ),
             onPressed: () {
               showAccountPage();
@@ -101,7 +104,10 @@ class _SettingsState extends State<Settings> {
                 CupertinoIcons.person_2
               ),
               title: Text("Friends"),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: Theme.of(context).iconTheme.color,
+              ),
             ),
             onPressed: () {
               showFriendsPage();
@@ -116,7 +122,10 @@ class _SettingsState extends State<Settings> {
               ),
               title: Text("Privacy"),
               //subtitle: Text("Change your personal user data such as your username"),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: Theme.of(context).iconTheme.color,
+              ),
             ),
             onPressed: () {
 
@@ -131,7 +140,10 @@ class _SettingsState extends State<Settings> {
               ),
               title: Text("blablub"),
               //subtitle: Text("Change your personal user data such as your username"),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: Theme.of(context).iconTheme.color,
+              ),
             ),
             onPressed: () {
               showAppearancePage();
@@ -146,7 +158,10 @@ class _SettingsState extends State<Settings> {
               ),
               title: Text("About CodeSlice"),
               //subtitle: Text("Change your personal user data such as your username"),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: Theme.of(context).iconTheme.color,
+              ),
             ),
             onPressed: () {
 
