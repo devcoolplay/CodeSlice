@@ -103,6 +103,20 @@ class _SignInState extends State<SignIn> {
                       _password = value;
                     });
                   },
+                  onFieldSubmitted: (val) async {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        _loading = true;
+                      });
+                      dynamic result = await _auth.signInWithEmailAndPass(_email, _password);
+                      if (result == null) {
+                        setState(() {
+                          _loading = false;
+                          _error = "Email or Password incorrect";
+                        });
+                      }
+                    }
+                  },
                   obscureText: true,
                 ),
                 const SizedBox(height: 8.0),

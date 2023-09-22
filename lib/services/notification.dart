@@ -1,11 +1,14 @@
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:mobile_app/main.dart';
 import 'package:mobile_app/services/auth.dart';
 import 'package:mobile_app/services/database.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import '../screens/home/SettingsTab/blablub.dart';
 
 class NotificationService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -14,7 +17,9 @@ class NotificationService {
 
   void handleMessage(RemoteMessage? message) {
     if (message != null) {
-
+      navigatorKey.currentState?.push(
+          MaterialPageRoute(builder: (context) => const AppearanceSettings())
+      );
     }
   }
 

@@ -5,6 +5,7 @@ import '../models/community_snippet.dart';
 import '../models/snippet.dart';
 import '../shared/user_data.dart';
 import 'database.dart';
+import 'notification.dart';
 
 class SocialService {
 
@@ -83,15 +84,18 @@ class SocialService {
     try {
       // Get user's current shared_snippets list
       List<dynamic> snippetList = await getSharedSnippetsOf(userId);
-      snippetList.add({
-        "from_user": uid,
-        "id": snippet.id,
-        "name": snippet.name,
-        "content": snippet.content,
-        "language": snippet.language,
-        "description": snippet.description,
-        //"timestamp": FieldValue.serverTimestamp() // Firebase: Timestamp currently not allowed in arrays
-      });
+      if (!snippetList.any((element) => element["id"] == snippet.id)) {
+        snippetList.add({
+          "from_user": uid,
+          "id": snippet.id,
+          "name": snippet.name,
+          "content": snippet.content,
+          "language": snippet.language,
+          "description": snippet.description,
+          //"timestamp": FieldValue.serverTimestamp() // Firebase: Timestamp currently not allowed in arrays
+        });
+        NotificationService().sendShareNotification(userId, UserData.username, snippet.name);
+      }
       return await _db.usersCollection.doc(userId).update({
         "shared_snippets": snippetList,
       });

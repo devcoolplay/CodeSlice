@@ -68,12 +68,12 @@ class FriendTile extends StatelessWidget {
                     for (String snippetId in selectedSnippetsProvider.selectedSnippets) {
                       Snippet snippet = await _db.getSnippetById(snippetId);
                       _social.shareSnippet(userId: id, snippet: snippet);
-                      NotificationService().sendShareNotification(id, UserData.username, snippet.name);
                     }
                     Fluttertoast.showToast(
                       msg: "Shared!",
                       webBgColor: "linear-gradient(to right, #0c18fb, #0c18fb)",
                     );
+                    selectedSnippetsProvider.unselectAllSnippets();
                     Navigator.of(context).pop();
                   }
                 },
