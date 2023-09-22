@@ -133,16 +133,23 @@ class _FriendsState extends State<Friends> {
               onPressed: () => showAddFriendPanel(),
             )
           ],
-          bottom: const TabBar(
+          bottom: TabBar(
+            indicatorColor: primarySwatchColor,
             tabs: [
               Tab(
                 child: Text(
                   "My Friends",
+                  style: TextStyle(
+                      color: Theme.of(context).disabledColor
+                  ),
                 ),
               ),
               Tab(
                 child: Text(
                   "Requests",
+                  style: TextStyle(
+                    color: Theme.of(context).disabledColor
+                  ),
                 ),
               ),
             ],

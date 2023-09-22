@@ -36,7 +36,7 @@ class _SnippetTileState extends State<SnippetTile> {
       child: Card(
         margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
         child: Container(
-          color: selectedSnippetsProvider.selectedSnippets.contains(widget.snippet.id) ? darkTheme.highlightColor : null, // Change color to grey if this snippet is selected,,
+          color: selectedSnippetsProvider.selectedSnippets.contains(widget.snippet.id) ? Theme.of(context).highlightColor : null, // Change color to grey if this snippet is selected,,
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: InkWell(
             onTap: () {
@@ -51,9 +51,9 @@ class _SnippetTileState extends State<SnippetTile> {
               child: IgnorePointer(
                 ignoring: selectedSnippetsProvider.selectedSnippets.isNotEmpty ? true : false, // If selection mode, disable expansion tile
                 child: ExpansionTile(
-                  textColor: darkTheme.highlightColor,
-                  iconColor: darkTheme.highlightColor,
-                  backgroundColor: selectedSnippetsProvider.selectedSnippets.contains(widget.snippet.id) ? darkTheme.highlightColor : null, // Change color to grey if this snippet is selected,
+                  textColor: Theme.of(context).highlightColor,
+                  iconColor: Theme.of(context).highlightColor,
+                  backgroundColor: selectedSnippetsProvider.selectedSnippets.contains(widget.snippet.id) ? Theme.of(context).highlightColor : null, // Change color to grey if this snippet is selected,
                   leading: Icon(availableLanguageIcons.containsKey(widget.snippet.language.toLowerCase()) ? availableLanguageIcons[widget.snippet.language.toLowerCase()] : availableLanguageIcons["other"]),
                   title: Text(widget.snippet.name),
                   subtitle: widget.snippet.description == "empty" ? Text(widget.snippet.language, style: const TextStyle(fontSize: 14.0)) :Column(

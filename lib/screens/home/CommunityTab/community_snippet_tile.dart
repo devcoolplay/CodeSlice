@@ -43,7 +43,7 @@ class CommunitySnippetTile extends StatelessWidget {
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
           child: Container(
-            color: selectedSnippetsProvider.selectedSnippets.contains(snippet.id) ? darkTheme.highlightColor : null, // Change color to blue if this snippet is selected,,
+            color: selectedSnippetsProvider.selectedSnippets.contains(snippet.id) ? Theme.of(context).highlightColor : null, // Change color to blue if this snippet is selected,,
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: InkWell(
               onTap: () {
@@ -58,9 +58,9 @@ class CommunitySnippetTile extends StatelessWidget {
                 child: IgnorePointer(
                   ignoring: selectedSnippetsProvider.selectedSnippets.isNotEmpty ? true : false, // If selection mode, disable expansion tile
                   child: ExpansionTile(
-                    textColor: darkTheme.highlightColor,
-                    iconColor: darkTheme.highlightColor,
-                    backgroundColor: selectedSnippetsProvider.selectedSnippets.contains(snippet.id) ? darkTheme.highlightColor : null, // Change color to blue if this snippet is selected,
+                    textColor: Theme.of(context).highlightColor,
+                    iconColor: Theme.of(context).highlightColor,
+                    backgroundColor: selectedSnippetsProvider.selectedSnippets.contains(snippet.id) ? Theme.of(context).highlightColor : null, // Change color to blue if this snippet is selected,
                     leading: SizedBox(height: 40, width: 40, child: ProfilePicture(userId: snippet.from, size: 10.0)),
                     title: Text(snippet.name),
                     subtitle: Padding(

@@ -270,7 +270,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       },
       child: Scaffold(
         extendBody: true,
-        appBar: _selectedTab == 0 || _selectedTab == 1 ? selectedSnippetsProvider.selectedSnippets.isEmpty ? appBars[0] : (selectedSnippetsProvider.selectedSnippets.length > 1 ? appBars[5] : appBars[4]) : appBars[_selectedTab],
+        appBar: _selectedTab == 0 || _selectedTab == 1 ? selectedSnippetsProvider.selectedSnippets.isEmpty ? appBars[_selectedTab == 0 ? 0 : 1] : (selectedSnippetsProvider.selectedSnippets.length > 1 ? appBars[5] : appBars[4]) : appBars[_selectedTab],
         bottomNavigationBar: _buildFloatingBar(context),
         body: tabs[_selectedTab],
       ),
@@ -283,10 +283,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       padding: const EdgeInsets.only(bottom: 20),
       child: CustomNavigationBar(
         iconSize: 30.0,
-        selectedColor: Color(0xff0c18fb),
+        selectedColor: Theme.of(context).primaryColor,
         strokeColor: Color(0x300c18fb),
         //unSelectedColor: Colors.grey[600],
-        backgroundColor: darkTheme.secondaryHeaderColor,
+        backgroundColor: Theme.of(context).cardColor,
         borderRadius: Radius.circular(20.0),
         items: [
           CustomNavigationBarItem(
