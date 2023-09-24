@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile_app/main.dart';
+import 'package:mobile_app/services/api_secrets.dart';
 import 'package:mobile_app/services/auth.dart';
 import 'package:mobile_app/services/database.dart';
 import 'dart:convert';
@@ -72,7 +73,7 @@ class NotificationService {
           Uri.parse("https://fcm.googleapis.com/fcm/send"),
           headers: {
             "Content-Type": "application/json; charset=UTF-8",
-            "Authorization": "key=AAAAdnbX3AQ:APA91bE_smGstbQwGBBXNZaZ2HmbUDo5AvO6XJ5s01N8jXGSinXhhkX9trZC5YalBsqyszby_KJEaEyJCPG7h6WFMXat9ce7p7mbOniVW1t78s8UzzKtZmYdy2Td4NMRJz0XpZj8hDlL",
+            "Authorization": "key=$cloudMessagingApiKey",
           },
           body: constructShareNotification(token, senderUsername, snippetTitle)
         );
