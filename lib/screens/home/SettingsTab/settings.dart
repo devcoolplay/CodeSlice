@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/home/SettingsTab/account.dart';
 import 'package:mobile_app/shared/constants.dart';
 
-import '../../../services/auth.dart';
 import '../../../shared/user_data.dart';
 import 'blablub.dart';
 import 'friends.dart';
@@ -20,8 +19,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-
-  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +82,7 @@ class _SettingsState extends State<Settings> {
                 color: Theme.of(context).iconTheme.color,
                 CupertinoIcons.person,
               ),
-              title: Text("Account"),
+              title: const Text("Account"),
               //subtitle: Text("Change your personal user data such as your username"),
               trailing: Icon(
                 Icons.chevron_right,
@@ -103,7 +100,7 @@ class _SettingsState extends State<Settings> {
                 color: Theme.of(context).iconTheme.color,
                 CupertinoIcons.person_2
               ),
-              title: Text("Friends"),
+              title: const Text("Friends"),
               trailing: Icon(
                 Icons.chevron_right,
                 color: Theme.of(context).iconTheme.color,
@@ -120,7 +117,7 @@ class _SettingsState extends State<Settings> {
                   color: Theme.of(context).iconTheme.color,
                   CupertinoIcons.lock
               ),
-              title: Text("Privacy"),
+              title: const Text("Privacy"),
               //subtitle: Text("Change your personal user data such as your username"),
               trailing: Icon(
                 Icons.chevron_right,
@@ -138,7 +135,7 @@ class _SettingsState extends State<Settings> {
                   color: Theme.of(context).iconTheme.color,
                   Icons.color_lens_outlined
               ),
-              title: Text("blablub"),
+              title: const Text("blablub"),
               //subtitle: Text("Change your personal user data such as your username"),
               trailing: Icon(
                 Icons.chevron_right,
@@ -156,7 +153,7 @@ class _SettingsState extends State<Settings> {
                   color: Theme.of(context).iconTheme.color,
                   CupertinoIcons.info
               ),
-              title: Text("About CodeSlice"),
+              title: const Text("About CodeSlice"),
               //subtitle: Text("Change your personal user data such as your username"),
               trailing: Icon(
                 Icons.chevron_right,

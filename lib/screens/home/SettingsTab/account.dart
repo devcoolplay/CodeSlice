@@ -1,16 +1,12 @@
-import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_app/services/notification.dart';
-import 'package:mobile_app/services/storage.dart';
 import 'package:mobile_app/shared/constants.dart';
 import 'package:mobile_app/shared/user_data.dart';
-import 'package:provider/provider.dart';
 
-import '../../../main.dart';
 import '../../../services/auth.dart';
 import '../../../services/database.dart';
 
@@ -27,7 +23,6 @@ class _AccountState extends State<Account> {
   final _formKey = GlobalKey<FormState>();
 
   final AuthService _auth = AuthService();
-  final StorageService _storage = StorageService();
   late DatabaseService _db;
 
   bool _editUsername = false;
@@ -63,7 +58,6 @@ class _AccountState extends State<Account> {
       setState(() {
         UserData.profilePicture = img;
       });
-      String imgUrl = await _storage.uploadImage(fileName: _auth.userId, image: img);
       //await _db.updateProfilePicture(imgUrl);
     }
   }

@@ -1,6 +1,4 @@
 
-import 'dart:typed_data';
-
 class UserData {
 
   static String username = "";

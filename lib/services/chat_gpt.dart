@@ -37,7 +37,7 @@ class ChatGPT {
       //print(data);
       String code = data["choices"][0]["message"]["content"];
 
-      return code ?? "";
+      return code;
     }
     else {
       throw Exception("Failed to generate code snippet!");

@@ -1,7 +1,6 @@
 
 /// The SnippetTile widget builds the individual snippet tiles.
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
@@ -11,7 +10,6 @@ import 'package:mobile_app/main.dart';
 import 'package:mobile_app/models/community_snippet.dart';
 import 'package:mobile_app/shared/constants.dart';
 import 'package:mobile_app/shared/profile_picture.dart';
-import 'package:mobile_app/themes/dark_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../services/auth.dart';
@@ -27,9 +25,9 @@ class CommunitySnippetTile extends StatelessWidget {
 
   late final DatabaseService _db = DatabaseService(uuid: _auth.userId);
 
-  Future<String> _getName() async {
+  /*Future<String> _getName() async {
     return await _db.getNameById(snippet.from);
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

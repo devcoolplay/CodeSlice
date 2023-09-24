@@ -1,7 +1,6 @@
 
 /// The SnippetTile widget builds the individual snippet tiles.
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
@@ -10,7 +9,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/models/snippet.dart';
 import 'package:mobile_app/shared/constants.dart';
-import 'package:mobile_app/themes/dark_theme.dart';
 import 'package:provider/provider.dart';
 
 class SnippetTile extends StatefulWidget {

@@ -21,7 +21,6 @@ class EditSnippet extends StatefulWidget {
 class _EditSnippetState extends State<EditSnippet> {
 
   final _formKey = GlobalKey<FormState>();
-  final _suggestLanguages = availableLanguageHighlighting.keys.toList();
 
   final AuthService _auth = AuthService();
 
@@ -39,19 +38,15 @@ class _EditSnippetState extends State<EditSnippet> {
   void _loadSnippetData() async {
     final databaseService = DatabaseService(uuid: AuthService().userId);
     Snippet? snippet = await databaseService.getSnippetById(widget.snippetId);
-    if (snippet != null) {
-      setState(() {
-        _controller.language = availableLanguageHighlighting[snippet.language.toLowerCase().replaceAll(" ", "")];
-        _controller.text = snippet.content;
-        _nameController.text = snippet.name;
-        _languageController.text = snippet.language;
-        if (snippet.description != "empty") {
-          _descriptionController.text = snippet.description;
-        }
-      });
-    } else {
-      // Handle case where snippet is not found
-    }
+    setState(() {
+      _controller.language = availableLanguageHighlighting[snippet.language.toLowerCase().replaceAll(" ", "")];
+      _controller.text = snippet.content;
+      _nameController.text = snippet.name;
+      _languageController.text = snippet.language;
+      if (snippet.description != "empty") {
+        _descriptionController.text = snippet.description;
+      }
+    });
   }
 
   void _saveSnippet(String name, String content, String language, String description) async {
@@ -66,8 +61,8 @@ class _EditSnippetState extends State<EditSnippet> {
     }
   }
 
-  String _hintText = "Language";
-  void _typeAheadFilter(String value) {
+  //String _hintText = "Language";
+  /*void _typeAheadFilter(String value) {
     if (value.isEmpty) {
       setState(() {
         _hintText = "Language";
@@ -85,7 +80,7 @@ class _EditSnippetState extends State<EditSnippet> {
         return;
       }
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

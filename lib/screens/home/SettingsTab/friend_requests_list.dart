@@ -15,7 +15,7 @@ class _FriendRequestsListState extends State<FriendRequestsList> {
   @override
   Widget build(BuildContext context) {
     final friendRequests = Provider.of<List<String>?>(context);
-    return friendRequests == null ? Loading() : ListView.builder(
+    return friendRequests == null ? const Loading() : ListView.builder(
       itemCount: friendRequests.length,
       itemBuilder: (context, index) {
         return FriendRequestTile(id: friendRequests[index]);

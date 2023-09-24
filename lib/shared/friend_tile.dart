@@ -1,10 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_app/services/social.dart';
-import 'package:mobile_app/shared/profile_picture.dart';
-import 'package:mobile_app/shared/user_data.dart';
 import 'package:mobile_app/shared/user_profile.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +9,6 @@ import '../main.dart';
 import '../models/snippet.dart';
 import '../services/auth.dart';
 import '../services/database.dart';
-import '../services/notification.dart';
 
 class FriendTile extends StatelessWidget {
   FriendTile({super.key, required this.id, required this.isShareMenu});

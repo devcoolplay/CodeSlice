@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_app/services/auth.dart';
 import 'package:mobile_app/services/social.dart';
-import 'package:mobile_app/services/storage.dart';
 import 'package:mobile_app/shared/constants.dart';
 import 'package:mobile_app/shared/profile_picture.dart';
 

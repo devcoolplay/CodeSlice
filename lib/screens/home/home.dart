@@ -20,7 +20,6 @@ import 'package:mobile_app/services/notification.dart';
 import '../../services/auth.dart';
 import '../../services/database.dart';
 import '../../shared/friends_list.dart';
-import '../../themes/dark_theme.dart';
 import 'CommunityTab/community.dart';
 import 'SnippetGeneratorTab/ai.dart';
 import 'package:mobile_app/screens/home/MySnippetsTab/my_snippets.dart';
@@ -43,9 +42,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   var tabs = [
     MySnippets(search: ""),
-    Feed(),
-    AI(),
-    Settings(),
+    const Feed(),
+    const AI(),
+    const Settings(),
   ];
 
   void _loadUsername() async {
@@ -150,7 +149,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(CupertinoIcons.search),
+            icon: const Icon(CupertinoIcons.search),
             tooltip: "Search",
             onPressed: () {
               showSearch(
@@ -160,7 +159,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             },
           ),
           IconButton(
-            icon: Icon(CupertinoIcons.add),
+            icon: const Icon(CupertinoIcons.add),
             tooltip: "Add Snippet",
             onPressed: () {
               showAddSnippetPage();
@@ -173,7 +172,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(CupertinoIcons.search),
+            icon: const Icon(CupertinoIcons.search),
             onPressed: () {
 
             },
@@ -185,7 +184,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         centerTitle: true,
       ),
       AppBar(       // Settings tab app bar
-        title: Text("Settings"),
+        title: const Text("Settings"),
         centerTitle: true,
       ),
       AppBar(       // Single snippet selected app bar
@@ -284,10 +283,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       child: CustomNavigationBar(
         iconSize: 30.0,
         selectedColor: Theme.of(context).primaryColor,
-        strokeColor: Color(0x300c18fb),
+        strokeColor: const Color(0x300c18fb),
         //unSelectedColor: Colors.grey[600],
         backgroundColor: Theme.of(context).cardColor,
-        borderRadius: Radius.circular(20.0),
+        borderRadius: const Radius.circular(20.0),
         items: [
           CustomNavigationBarItem(
             icon: const Icon(

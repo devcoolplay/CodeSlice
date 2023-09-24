@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_devicon/flutter_devicon.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile_app/services/storage.dart';
 import 'package:mobile_app/shared/friends_data.dart';
@@ -29,7 +28,7 @@ class ProfilePicture extends StatelessWidget {
         return CircleAvatar(
           backgroundColor: Colors.white,
           radius: size,
-          backgroundImage: AssetImage("assets/images/DefaultProfile.jpg"),
+          backgroundImage: const AssetImage("assets/images/DefaultProfile.jpg"),
         );
       }
     }

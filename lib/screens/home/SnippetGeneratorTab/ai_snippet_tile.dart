@@ -1,16 +1,13 @@
 
 /// The SnippetTile widget builds the individual snippet tiles.
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:flutter_highlight/themes/monokai-sublime.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobile_app/main.dart';
 import 'package:mobile_app/models/snippet.dart';
 import 'package:mobile_app/shared/constants.dart';
-import 'package:provider/provider.dart';
 
 import '../../../services/auth.dart';
 import '../../../services/database.dart';
@@ -25,7 +22,6 @@ class AiSnippetTile extends StatefulWidget {
 }
 
 class _AiSnippetTileState extends State<AiSnippetTile> {
-  final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _languageController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -53,7 +49,6 @@ class _AiSnippetTileState extends State<AiSnippetTile> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedSnippetsProvider = Provider.of<SelectedSnippetsProvider>(context);
     final controller = CodeController(
       text: widget.snippet.content,
       language: availableLanguageHighlighting.containsKey(widget.snippet.language.toLowerCase().replaceAll(" ", "")) ? availableLanguageHighlighting[widget.snippet.language.toLowerCase().replaceAll(" ", "")] : availableLanguageHighlighting["other"],

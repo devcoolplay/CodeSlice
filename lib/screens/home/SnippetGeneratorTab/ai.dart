@@ -3,8 +3,6 @@
 /// Here, users can type a prompt for a code snippet they want to get created by ChatGPT.
 /// The app then makes an API request.
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile_app/screens/home/SnippetGeneratorTab/ai_snippet_tile.dart';

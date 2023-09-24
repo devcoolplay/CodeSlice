@@ -1,13 +1,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobile_app/screens/home/SettingsTab/friend_request_tile.dart';
 import 'package:mobile_app/screens/home/SettingsTab/friend_requests_list.dart';
 import 'package:mobile_app/services/database.dart';
 import 'package:mobile_app/services/notification.dart';
-import 'package:mobile_app/shared/friend_tile.dart';
 import 'package:mobile_app/services/social.dart';
 import 'package:mobile_app/shared/constants.dart';
 import 'package:provider/provider.dart';
@@ -62,9 +59,9 @@ class _FriendsState extends State<Friends> {
                           const SizedBox(height: 30.0),
                           TextFormField(
                             controller: _nameController,
-                            inputFormatters: <TextInputFormatter>[
+                            /*inputFormatters: <TextInputFormatter>[
                               //FilteringTextInputFormatter.allow(RegExp("[0-9\.a-zA-Z_]")),
-                            ],
+                            ],*/
                             decoration: authInputDecoration.copyWith(hintText: "Username"),
                             validator: (val) => val!.isEmpty ? "Please enter a username" : null,
                           ),
@@ -165,7 +162,7 @@ class _FriendsState extends State<Friends> {
             StreamProvider<List<String>?>.value(
               value: _social.friendRequests,
               initialData: null,
-              child: FriendRequestsList(),
+              child: const FriendRequestsList(),
             )
           ],
         ),

@@ -16,7 +16,6 @@ class AddSnippet extends StatefulWidget {
 class _AddSnippetState extends State<AddSnippet> {
 
   final _formKey = GlobalKey<FormState>();
-  final _suggestLanguages = availableLanguageHighlighting.keys.toList();
 
   final AuthService _auth = AuthService();
 

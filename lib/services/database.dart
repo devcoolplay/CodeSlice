@@ -2,12 +2,8 @@
 /// The DatabaseService class acts as an interface between the database and the front-end (the app).
 /// Specifically, it is responsible for updating a user's personal information (such as the username) and snippets.
 
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_app/models/snippet.dart';
-
-import '../shared/user_data.dart';
 
 class DatabaseService {
 
