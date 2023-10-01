@@ -12,18 +12,11 @@ import 'package:mobile_app/shared/constants.dart';
 import 'package:mobile_app/shared/profile_picture.dart';
 import 'package:provider/provider.dart';
 
-import '../../../services/auth.dart';
-import '../../../services/database.dart';
-
 class CommunitySnippetTile extends StatelessWidget {
-  CommunitySnippetTile({super.key, required this.snippet, required this.username});
+  const CommunitySnippetTile({super.key, required this.snippet, required this.username});
 
   final CommunitySnippet snippet;
   final String username;
-
-  final AuthService _auth = AuthService();
-
-  late final DatabaseService _db = DatabaseService(uuid: _auth.userId);
 
   /*Future<String> _getName() async {
     return await _db.getNameById(snippet.from);

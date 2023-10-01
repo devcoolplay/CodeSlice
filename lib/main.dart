@@ -5,10 +5,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:mobile_app/screens/wrapper.dart';
 import 'package:mobile_app/services/auth.dart';
+import 'package:mobile_app/shared/app_data.dart';
 import 'package:mobile_app/themes/light_theme.dart';
 import 'package:mobile_app/themes/dark_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +36,57 @@ class SelectedSnippetsProvider extends ChangeNotifier {
   }
 }
 
+class ThemeProvider extends ChangeNotifier {
+  // TODO: Save theme the user selected
+  ThemeMode selectedTheme = ThemeMode.system;
+
+  void setTheme(String theme) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (theme == "dark") {
+      selectedTheme = ThemeMode.dark;
+      AppData.darkMode = true;
+      prefs.setBool("dark_mode", true);
+    }
+    else if (theme == "light") {
+      selectedTheme = ThemeMode.light;
+      AppData.darkMode = false;
+      prefs.setBool("dark_mode", false);
+    }
+    else {
+      selectedTheme = ThemeMode.system;
+    }
+    notifyListeners();
+  }
+
+  void getMode() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool("dark_mode") != null) {
+      selectedTheme = prefs.getBool("dark_mode")! ? ThemeMode.dark : ThemeMode.light;
+      if (selectedTheme == ThemeMode.dark) {
+        AppData.darkMode = true;
+      }
+      else {
+        AppData.darkMode = false;
+      }
+    }
+    else {
+      if (SchedulerBinding.instance.platformDispatcher.platformBrightness == Brightness.dark) {
+        prefs.setBool("dark_mode", true);
+        AppData.darkMode = true;
+      }
+      else {
+        prefs.setBool("dark_mode", false);
+        AppData.darkMode = false;
+      }
+    }
+    notifyListeners();
+  }
+
+  ThemeProvider() {
+    getMode();
+  }
+}
+
 final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
@@ -41,8 +95,11 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => SelectedSnippetsProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SelectedSnippetsProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ],
       child: const MyApp(),
     )
   );
@@ -53,6 +110,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -65,6 +123,7 @@ class MyApp extends StatelessWidget {
         title: 'CodeSlice',
         theme: lightTheme,
         darkTheme: darkTheme,
+        themeMode: themeProvider.selectedTheme,
         home: const Wrapper(),
       ),
     );

@@ -9,7 +9,7 @@ import 'package:mobile_app/services/database.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../screens/home/SettingsTab/blablub.dart';
+import '../screens/home/SettingsTab/appearance.dart';
 
 class NotificationService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;

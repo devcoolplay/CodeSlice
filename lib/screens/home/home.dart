@@ -2,15 +2,20 @@
 /// The Home widget shows app bar and navigation bar.
 /// Also, it decides what screen to show according to the currently selected tab
 
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/screens/home/MySnippetsTab/add_snippet.dart';
 import 'package:mobile_app/screens/home/MySnippetsTab/edit_snippet.dart';
 import 'package:mobile_app/screens/home/SettingsTab/settings.dart';
 import 'package:mobile_app/services/social.dart';
 import 'package:mobile_app/services/storage.dart';
+import 'package:mobile_app/shared/constants.dart';
 import 'package:mobile_app/shared/friends_data.dart';
 import 'package:mobile_app/shared/user_data.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +32,6 @@ import 'package:mobile_app/screens/home/MySnippetsTab/my_snippets.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
 
-
   @override
   State<Home> createState() => _HomeState();
 }
@@ -35,10 +39,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   // nav bar
   var _selectedTab = 0;
+
   late final AuthService _auth;
   late final StorageService _storage;
   late final DatabaseService _db;
   late final SocialService _social;
+
+  // Checking internet connectivity
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   var tabs = [
     MySnippets(search: ""),
@@ -77,6 +87,27 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     }
   }
 
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print("Couldn't check connectivity status: $e");
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    print("Connection status changed: $result");
+    setState(() {
+      _connectionStatus = result;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -84,6 +115,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _storage = StorageService();
     _db = DatabaseService(uuid: _auth.userId);
     _social = SocialService(uuid: _auth.userId);
+    initConnectivity();
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     _loadUsername();
     _loadInfo();
     _loadProfilePicture();
@@ -257,6 +290,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     ];
 
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return WillPopScope(
       onWillPop: () async {
         if (selectedSnippetsProvider.selectedSnippets.isNotEmpty) {
@@ -271,7 +305,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         extendBody: true,
         appBar: _selectedTab == 0 || _selectedTab == 1 ? selectedSnippetsProvider.selectedSnippets.isEmpty ? appBars[_selectedTab == 0 ? 0 : 1] : (selectedSnippetsProvider.selectedSnippets.length > 1 ? appBars[5] : appBars[4]) : appBars[_selectedTab],
         bottomNavigationBar: _buildFloatingBar(context),
-        body: tabs[_selectedTab],
+        body: _selectedTab == 2 && _connectionStatus == ConnectivityResult.none ? const Center(child: Text("You are not connected to the internet!"),) : tabs[_selectedTab],
+        /*floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
+              themeProvider.setTheme("light");
+            }
+            else {
+              C
+            }
+          },
+        ),*/
       ),
     );
   }
@@ -282,7 +327,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       padding: const EdgeInsets.only(bottom: 20),
       child: CustomNavigationBar(
         iconSize: 30.0,
-        selectedColor: Theme.of(context).primaryColor,
+        selectedColor: primarySwatchColor,
         strokeColor: const Color(0x300c18fb),
         //unSelectedColor: Colors.grey[600],
         backgroundColor: Theme.of(context).cardColor,

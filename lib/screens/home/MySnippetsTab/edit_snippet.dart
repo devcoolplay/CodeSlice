@@ -61,7 +61,7 @@ class _EditSnippetState extends State<EditSnippet> {
     }
   }
 
-  //String _hintText = "Language";
+  final String _hintText = "Language";
   /*void _typeAheadFilter(String value) {
     if (value.isEmpty) {
       setState(() {
@@ -86,12 +86,10 @@ class _EditSnippetState extends State<EditSnippet> {
   Widget build(BuildContext context) {
     final selectedSnippetsProvider = Provider.of<SelectedSnippetsProvider>(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      //backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Text("Edit Snippet"),
         centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
         child: Form(

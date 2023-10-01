@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobile_app/services/notification.dart';
 import 'package:mobile_app/shared/constants.dart';
 import 'package:mobile_app/shared/user_data.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../services/auth.dart';
 import '../../../services/database.dart';
@@ -284,7 +285,9 @@ class _AccountState extends State<Account> {
             onPressed: () async {
               //final selectedSnippetsProvider = Provider.of<SelectedSnippetsProvider>(context);
               //selectedSnippetsProvider.selectedSnippets.clear();
-              await NotificationService().invalidateToken();
+              if (!kIsWeb) {
+                await NotificationService().invalidateToken();
+              }
               await _auth.signOut();
               Navigator.of(context).pop();
             },

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../shared/constants.dart';
 
 ThemeData darkTheme = ThemeData(
-  //highlightColor: Colors.white,
+  highlightColor: Colors.grey[400],
   disabledColor: Colors.white,
   iconTheme: IconThemeData(
     color: Colors.grey[400],
@@ -16,7 +16,7 @@ ThemeData darkTheme = ThemeData(
   secondaryHeaderColor: Colors.grey[800]!,
   colorScheme: ColorScheme.dark(
     background: Colors.black54,
-    primary: Colors.grey[900]!,
+    primary: primarySwatchColor,
     secondary: Colors.grey[800]!,
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
