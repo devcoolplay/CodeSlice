@@ -107,13 +107,13 @@ const authInputDecoration = InputDecoration(
 
 const textInputDecoration = InputDecoration(
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.white),
-    borderRadius: BorderRadius.all(Radius.circular(12.5)),
+    borderSide: BorderSide(color: primarySwatchColor),
+    borderRadius: BorderRadius.all(Radius.circular(5)), // 12.5
   ),
   //fillColor: Colors.white,
   filled: true,
   border: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(12.5)),
+      borderRadius: BorderRadius.all(Radius.circular(5)), // 12.5
       borderSide: BorderSide(width: 1.0)
   ),
 );

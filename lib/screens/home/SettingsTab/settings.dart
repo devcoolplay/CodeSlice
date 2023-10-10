@@ -54,14 +54,14 @@ class _SettingsState extends State<Settings> {
                   const SizedBox(width: 20.0),
                   UserData.profilePicture != null ?
                   CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     radius: 30.0,
                     backgroundImage: MemoryImage(UserData.profilePicture),
                   ) :
-                  const CircleAvatar(
-                    backgroundColor: Colors.white,
+                  CircleAvatar(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     radius: 30.0,
-                    backgroundImage: AssetImage("assets/images/DefaultProfile.jpg"),
+                    backgroundImage: const AssetImage("assets/images/DefaultProfile.jpg"),
                   ),
                   const SizedBox(width: 20.0),
                   Text(

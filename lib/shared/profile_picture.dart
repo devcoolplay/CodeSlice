@@ -19,14 +19,14 @@ class ProfilePicture extends StatelessWidget {
     if (FriendsData.profilePictures.containsKey(userId)) {
       if (FriendsData.profilePictures[userId] != null) {
         return CircleAvatar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           radius: size,
           backgroundImage: MemoryImage(FriendsData.profilePictures[userId]!),
         );
       }
       else {
         return CircleAvatar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           radius: size,
           backgroundImage: const AssetImage("assets/images/DefaultProfile.jpg"),
         );
