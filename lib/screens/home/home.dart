@@ -15,6 +15,7 @@ import 'package:mobile_app/screens/home/MySnippetsTab/edit_snippet.dart';
 import 'package:mobile_app/screens/home/SettingsTab/settings.dart';
 import 'package:mobile_app/services/social.dart';
 import 'package:mobile_app/services/storage.dart';
+import 'package:mobile_app/shared/app_data.dart';
 import 'package:mobile_app/shared/constants.dart';
 import 'package:mobile_app/shared/friends_data.dart';
 import 'package:mobile_app/shared/user_data.dart';
@@ -26,6 +27,7 @@ import '../../services/auth.dart';
 import '../../services/database.dart';
 import '../../shared/friends_list.dart';
 import 'CommunityTab/community.dart';
+import 'MySnippetsTab/add_folder.dart';
 import 'SnippetGeneratorTab/ai.dart';
 import 'package:mobile_app/screens/home/MySnippetsTab/my_snippets.dart';
 
@@ -106,6 +108,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     setState(() {
       _connectionStatus = result;
     });
+    if (_connectionStatus == ConnectivityResult.none) {
+      showNoInternetDialog();
+    }
   }
 
   @override
@@ -128,6 +133,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final selectedSnippetsProvider = Provider.of<SelectedSnippetsProvider>(context);
 
+    void showAddFolderPage() {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const AddFolder())
+      );
+    }
     void showAddSnippetPage() {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => const AddSnippet())
@@ -180,15 +190,22 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       AppBar(       // My Snippets tab app bar
         title: const Text("My Snippets"),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(CupertinoIcons.search),
-            tooltip: "Search",
-            onPressed: () {
-              showSearch(
+        leading: IconButton(
+          icon: const Icon(CupertinoIcons.search),
+          tooltip: "Search",
+          onPressed: () {
+            showSearch(
                 context: context,
                 delegate: SnippetSearchBar()
-              );
+            );
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(CupertinoIcons.folder_badge_plus),
+            tooltip: "Add folder",
+            onPressed: () {
+              showAddFolderPage();
             },
           ),
           IconButton(
@@ -291,6 +308,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     ];
 
     final themeProvider = Provider.of<ThemeProvider>(context);
+
     return WillPopScope(
       onWillPop: () async {
         if (selectedSnippetsProvider.selectedSnippets.isNotEmpty) {
@@ -412,6 +430,29 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ],
     )
+  );
+
+  Future showNoInternetDialog() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        icon: const Icon(CupertinoIcons.wifi_slash),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        //title: const Text("Delete Snippets"),
+        content: const Text("You are not connected to the internet!\nSome functions might not be available",
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: ElevatedButton.styleFrom(
+              //backgroundColor: Colors.grey,
+            ),
+            child: const Text("OK"),
+          ),
+        ],
+      )
   );
 }
 

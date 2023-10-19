@@ -8,7 +8,8 @@ class Snippet {
   final String content;
   final String language;
   final String description;
+  final String path;
   final DateTime timestamp;
 
-  Snippet({required this.id, required this.name, required this.content, required this.language, required this.description, required this.timestamp});
+  Snippet({required this.id, required this.name, required this.content, required this.language, required this.description, required this.timestamp, required this.path});
 }

@@ -5,6 +5,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_app/models/snippet.dart';
 
+import '../models/folder.dart';
+
 class DatabaseService {
 
   String uid = "";
@@ -27,6 +29,7 @@ class DatabaseService {
     usersCollection.doc(uid).set({
       "username": username,
       "info": "Hello World!",
+      "folders": [""],
       "friends": [""],
       "friend_requests": [""],
       "shared_snippets": [{"empty": "empty"}],
@@ -190,6 +193,7 @@ class DatabaseService {
       "content": snippetContent,
       "language": snippetLanguage,
       "description": snippetDescription,
+      "path": "/",
       "timestamp": FieldValue.serverTimestamp()
     });
   }
@@ -204,6 +208,7 @@ class DatabaseService {
         content: data["content"] ?? "",
         language: data["language"] ?? "",
         description: data["description"] ?? "",
+        path: data["path"] ?? "",
         timestamp: data["timestamp"].toDate() ?? ""
       );
   }
@@ -249,6 +254,7 @@ class DatabaseService {
         content: doc.get("content") ?? "",
         language: doc.get("language") ?? "",
         description: doc.get("description") ?? "",
+        path: doc.get("path") ?? "",
         timestamp: timestamp
       );
     }).toList();
@@ -258,6 +264,21 @@ class DatabaseService {
   Stream<List<Snippet>> get snippets {
     return userDataCollection.snapshots()
         .map(_snippetListFromSnapshot);
+  }
+
+  List<Folder> _folderListFromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    List<Folder> folders = [];
+    for (String folder in data["folders"]) {
+      //if (folder != "") {
+        folders.add(Folder(name: folder));
+      //}
+    }
+    return folders;
+  }
+
+  Stream<List<Folder>> get folders {
+    return usersCollection.doc(uid).snapshots().map(_folderListFromSnapshot);
   }
 
   Future<List<String>> getNotificationTokens(String userId) async {
@@ -270,6 +291,16 @@ class DatabaseService {
       }
     }
     return tokenList;
+  }
+
+  Future<List<String>> getFolders(String userId) async {
+    DocumentSnapshot snapshot = await usersCollection.doc(userId).get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    List<String> folders = [];
+    for (String folder in data["folders"]) {
+      folders.add(folder);
+    }
+    return folders;
   }
 
   Future addNotificationToken(String? token) async {
@@ -299,6 +330,18 @@ class DatabaseService {
       });
     } catch (e) {
       print("Something went wrong while trying to remove notification token from database: $e");
+    }
+  }
+
+  Future addFolder(String folderName) async {
+    try {
+      List<String> folders = await getFolders(uid);
+      folders.add(folderName);
+      return await usersCollection.doc(uid).update({
+        "folders": folders
+      });
+    } catch (e) {
+      print("Couldn't add folder: $e");
     }
   }
 

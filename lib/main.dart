@@ -36,6 +36,25 @@ class SelectedSnippetsProvider extends ChangeNotifier {
   }
 }
 
+class SelectedFoldersProvider extends ChangeNotifier {
+  List<String> selectedFolders = [];
+
+  void toggleFolder(String name) {
+    if (selectedFolders.contains(name)) {
+      selectedFolders.remove(name);
+    }
+    else {
+      selectedFolders.add(name);
+    }
+    notifyListeners(); // Notify listeners about the change
+  }
+
+  void unselectAllFolders() {
+    selectedFolders.clear();
+    notifyListeners(); // Notify listeners about the change
+  }
+}
+
 class ThemeProvider extends ChangeNotifier {
   // TODO: Save theme the user selected
   ThemeMode selectedTheme = ThemeMode.system;
@@ -98,6 +117,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SelectedSnippetsProvider()),
+        ChangeNotifierProvider(create: (context) => SelectedFoldersProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ],
       child: const MyApp(),

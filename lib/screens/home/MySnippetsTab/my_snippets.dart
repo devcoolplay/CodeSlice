@@ -8,7 +8,9 @@ import 'package:mobile_app/services/auth.dart';
 import 'package:mobile_app/services/database.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/folder.dart';
 import '../../../models/snippet.dart';
+import 'folder_list.dart';
 
 class MySnippets extends StatefulWidget {
   MySnippets({super.key, required this.search});
@@ -22,15 +24,31 @@ class MySnippets extends StatefulWidget {
 class _MySnippetsState extends State<MySnippets> {
 
   final AuthService _auth = AuthService();
+  late final DatabaseService _db = DatabaseService(uuid: _auth.userId);
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<Snippet>?>.value(
-      value: DatabaseService(uuid: _auth.userId).snippets,
-      initialData: null,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 14.0),
-        child: SnippetList(search: widget.search),
+    return SingleChildScrollView(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            StreamProvider<List<Folder>?>.value(
+              value: _db.folders,
+              initialData: null,
+              child: FolderList(search: widget.search),
+            ),
+            Divider(),
+            StreamProvider<List<Snippet>?>.value(
+              value: _db.snippets,
+              initialData: null,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 14.0),
+                child: SnippetList(search: widget.search),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

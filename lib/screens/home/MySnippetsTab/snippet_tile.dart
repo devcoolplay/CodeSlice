@@ -24,6 +24,7 @@ class _SnippetTileState extends State<SnippetTile> {
   @override
   Widget build(BuildContext context) {
     final selectedSnippetsProvider = Provider.of<SelectedSnippetsProvider>(context);
+    final selectedFoldersProvider = Provider.of<SelectedFoldersProvider>(context);
     final controller = CodeController(
       text: widget.snippet.content,
       language: availableLanguageHighlighting.containsKey(widget.snippet.language.toLowerCase().replaceAll(" ", "")) ? availableLanguageHighlighting[widget.snippet.language.toLowerCase().replaceAll(" ", "")] : availableLanguageHighlighting["other"],
@@ -43,7 +44,9 @@ class _SnippetTileState extends State<SnippetTile> {
               }
             },
             onLongPress: () {
-              selectedSnippetsProvider.toggleSnippet(widget.snippet.id);
+              if (selectedFoldersProvider.selectedFolders.isEmpty) {
+                selectedSnippetsProvider.toggleSnippet(widget.snippet.id);
+              }
             },
             child: Ink(
               child: IgnorePointer(

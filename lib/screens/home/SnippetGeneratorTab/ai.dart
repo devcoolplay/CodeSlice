@@ -76,7 +76,7 @@ class _AIState extends State<AI> {
             child: _loading ?
               const Padding(padding: EdgeInsets.only(top: 50), child: SpinKitThreeBounce(color: Colors.grey, size: 20.0)) :
               (_generatedSnippet != "" ?
-                AiSnippetTile(snippet: Snippet(id: "", name: "AI Generated", description: "empty", language: _languageController.text, content: _generatedSnippet, timestamp: DateTime.now())) :
+                AiSnippetTile(snippet: Snippet(id: "", name: "AI Generated", description: "empty", language: _languageController.text, content: _generatedSnippet, path: "/", timestamp: DateTime.now())) :
                 const Padding(padding: EdgeInsets.only(top: 50.0), child: Text("Powered by OpenAI", style: TextStyle(color: Colors.grey)),)
               ),
           ),

@@ -5,9 +5,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/home/SettingsTab/account.dart';
+import 'package:mobile_app/screens/home/SettingsTab/privacy_settings.dart';
 import 'package:mobile_app/shared/constants.dart';
 
 import '../../../shared/user_data.dart';
+import 'about.dart';
 import 'appearance.dart';
 import 'friends.dart';
 
@@ -37,6 +39,17 @@ class _SettingsState extends State<Settings> {
     void showAppearancePage() {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const AppearanceSettings())
+      );
+    }
+
+    void showPrivacyPage() {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const PrivacySettings())
+      );
+    }
+    void showAboutPage() {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const AboutPage())
       );
     }
 
@@ -125,7 +138,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             onPressed: () {
-
+              showPrivacyPage();
             },
           ),
           TextButton(
@@ -161,7 +174,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             onPressed: () {
-
+              showAboutPage();
             },
           ),
         ]

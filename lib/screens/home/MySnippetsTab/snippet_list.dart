@@ -26,7 +26,9 @@ class _SnippetListState extends State<SnippetList> {
     // snippetList to apply search filter
     final snippetList = snippets?.where((snip) => snip.name.toLowerCase().contains(widget.search) || snip.description.toLowerCase().contains(widget.search)).toList();
 
-    return snippets == null ? const Loading() : ListView.builder(
+    return snippets == null ? const SizedBox(height: 1.0) : ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: snippetList?.length,
       itemBuilder: (context, index) {
         snippetList?.sort((a,b) {
