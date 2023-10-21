@@ -9,9 +9,10 @@ import '../../../models/snippet.dart';
 import '../../../shared/loading.dart';
 
 class SnippetList extends StatefulWidget {
-  SnippetList({super.key, required this.search});
+  SnippetList({super.key, required this.search, required this.path});
 
   String search;
+  String path;
 
   @override
   State<SnippetList> createState() => _SnippetListState();
@@ -24,7 +25,7 @@ class _SnippetListState extends State<SnippetList> {
     final snippets = Provider.of<List<Snippet>?>(context);
 
     // snippetList to apply search filter
-    final snippetList = snippets?.where((snip) => snip.name.toLowerCase().contains(widget.search) || snip.description.toLowerCase().contains(widget.search)).toList();
+    final snippetList = snippets?.where((snip) => (snip.name.toLowerCase().contains(widget.search) || snip.description.toLowerCase().contains(widget.search)) && snip.path == widget.path).toList();
 
     return snippets == null ? const SizedBox(height: 1.0) : ListView.builder(
       shrinkWrap: true,

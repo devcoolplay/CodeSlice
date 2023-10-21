@@ -23,13 +23,13 @@ class DatabaseService {
   // Create user in database
   Future createUser({required String username}) async {
     // create a new document for the user with uid in the database
-    await addSnippet("My First Snippet", "print('Hello World!')", "Python", "empty");
+    await addSnippet("My First Snippet", "print('Hello World!')", "Python", "empty", "/");
 
     // Store username in user's collection
     usersCollection.doc(uid).set({
       "username": username,
       "info": "Hello World!",
-      "folders": [""],
+      "folders": [{"name": "", "path": "/", "color": "none"}],
       "friends": [""],
       "friend_requests": [""],
       "shared_snippets": [{"empty": "empty"}],
@@ -187,13 +187,13 @@ class DatabaseService {
   }
 
   // Add snippet to the database
-  Future addSnippet(String snippetName, String snippetContent, String snippetLanguage, String snippetDescription) async {
+  Future addSnippet(String snippetName, String snippetContent, String snippetLanguage, String snippetDescription, String snippetPath) async {
     return await userDataCollection.doc().set({
       "name": snippetName,
       "content": snippetContent,
       "language": snippetLanguage,
       "description": snippetDescription,
-      "path": "/",
+      "path": snippetPath,
       "timestamp": FieldValue.serverTimestamp()
     });
   }
@@ -269,10 +269,8 @@ class DatabaseService {
   List<Folder> _folderListFromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     List<Folder> folders = [];
-    for (String folder in data["folders"]) {
-      //if (folder != "") {
-        folders.add(Folder(name: folder));
-      //}
+    for (var folder in data["folders"]) {
+      folders.add(Folder(name: folder["name"]!, color: folder["color"]!, path: folder["path"]!));
     }
     return folders;
   }
@@ -293,12 +291,22 @@ class DatabaseService {
     return tokenList;
   }
 
-  Future<List<String>> getFolders(String userId) async {
+  Future<List<String>> getFolderNames(String userId) async {
     DocumentSnapshot snapshot = await usersCollection.doc(userId).get();
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     List<String> folders = [];
-    for (String folder in data["folders"]) {
-      folders.add(folder);
+    for (var folder in data["folders"]) {
+      folders.add(folder["name"]!);
+    }
+    return folders;
+  }
+
+  Future<List<Map<String, String>>> getFolders(String userId) async {
+    DocumentSnapshot snapshot = await usersCollection.doc(userId).get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    List<Map<String, String>> folders = [];
+    for (var folder in data["folders"]) {
+      folders.add({"name": folder["name"]!, "color": folder["color"]!, "path": folder["path"]!});
     }
     return folders;
   }
@@ -333,10 +341,10 @@ class DatabaseService {
     }
   }
 
-  Future addFolder(String folderName) async {
+  Future addFolder(String folderName, String folderColor, String folderPath) async {
     try {
-      List<String> folders = await getFolders(uid);
-      folders.add(folderName);
+      List<Map<String, String>> folders = await getFolders(uid);
+      folders.add({"name": folderName, "color": folderColor, "path": folderPath});
       return await usersCollection.doc(uid).update({
         "folders": folders
       });

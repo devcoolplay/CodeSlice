@@ -33,7 +33,7 @@ class _AiSnippetTileState extends State<AiSnippetTile> {
       description = "empty";
     }
     try {
-      await DatabaseService(uuid: _auth.userId).addSnippet(name, content, language, description);
+      await DatabaseService(uuid: _auth.userId).addSnippet(name, content, language, description, "/");
     } catch (e) {
       print("Failed to save snippet in database!");
       print(e);

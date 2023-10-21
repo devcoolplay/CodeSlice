@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:flutter_highlight/themes/monokai-sublime.dart';
+import 'package:mobile_app/main.dart';
+import 'package:mobile_app/shared/app_data.dart';
 import 'package:mobile_app/shared/constants.dart';
 
 import '../../../services/auth.dart';
@@ -34,7 +36,7 @@ class _AddSnippetState extends State<AddSnippet> {
       description = "empty";
     }
     try {
-      await DatabaseService(uuid: _auth.userId).addSnippet(name, content, language, description);
+      await DatabaseService(uuid: _auth.userId).addSnippet(name, content, language, description, AppData.mySnippetsPath);
     } catch (e) {
       print("Failed to save snippet in database!");
       print(e);

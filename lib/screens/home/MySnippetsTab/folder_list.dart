@@ -9,9 +9,10 @@ import '../../../shared/loading.dart';
 import 'folder_tile.dart';
 
 class FolderList extends StatefulWidget {
-  FolderList({super.key, required this.search});
+  FolderList({super.key, required this.search, required this.path});
 
   String search;
+  String path;
 
   @override
   State<FolderList> createState() => _FolderListState();
@@ -27,7 +28,7 @@ class _FolderListState extends State<FolderList> {
     const divisionFactor = 125;
 
     // folderList to apply search filter
-    final folderList = folders?.where((fol) => fol.name.toLowerCase().contains(widget.search) && fol.name != "").toList();
+    final folderList = folders?.where((fol) => fol.name.toLowerCase().contains(widget.search) && fol.name != "" && fol.path == widget.path).toList();
 
     return folders == null ? const SizedBox(height: 1.0) : Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 8.0, bottom: 0.0),

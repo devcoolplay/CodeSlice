@@ -18,15 +18,17 @@ class _AddFolderState extends State<AddFolder> {
   late final DatabaseService _db = DatabaseService(uuid: _auth.userId);
 
   String _name = "";
+  String _color = "blue";
+  String _path = "/";
   List<String> _folders = [];
 
   void _loadFolders() async {
-    _folders = await _db.getFolders(_auth.userId!);
+    _folders = await _db.getFolderNames(_auth.userId!);
   }
 
   void _saveFolder() async {
     try {
-      await _db.addFolder(_name);
+      await _db.addFolder(_name, _color, _path);
     } catch (e) {
       print("Failed to save folder in database!");
       print(e);

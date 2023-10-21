@@ -8,6 +8,7 @@ import 'package:flutter_highlight/themes/monokai-sublime.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/models/snippet.dart';
+import 'package:mobile_app/shared/app_data.dart';
 import 'package:mobile_app/shared/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,7 @@ class _FolderTileState extends State<FolderTile> {
   Widget build(BuildContext context) {
     final selectedFoldersProvider = Provider.of<SelectedFoldersProvider>(context);
     final selectedSnippetsProvider = Provider.of<SelectedSnippetsProvider>(context);
+    final mySnippetsPathProvider = Provider.of<MySnippetsPathProvider>(context);
 
     return Card(
       child: Container(
@@ -36,6 +38,14 @@ class _FolderTileState extends State<FolderTile> {
           onTap: () {
             if (selectedFoldersProvider.selectedFolders.isNotEmpty) {
               selectedFoldersProvider.toggleFolder(widget.folder.name);
+            }
+            else {
+              if (AppData.mySnippetsPath != "/") {
+                mySnippetsPathProvider.setPath("${widget.folder.path}/${widget.folder.name}");
+              }
+              else {
+                mySnippetsPathProvider.setPath("/${widget.folder.name}");
+              }
             }
           },
           onLongPress: () {

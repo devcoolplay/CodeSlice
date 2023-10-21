@@ -13,9 +13,10 @@ import '../../../models/snippet.dart';
 import 'folder_list.dart';
 
 class MySnippets extends StatefulWidget {
-  MySnippets({super.key, required this.search});
+  MySnippets({super.key, required this.search, required this.path});
 
   String search;
+  String path;
 
   @override
   State<MySnippets> createState() => _MySnippetsState();
@@ -36,15 +37,15 @@ class _MySnippetsState extends State<MySnippets> {
             StreamProvider<List<Folder>?>.value(
               value: _db.folders,
               initialData: null,
-              child: FolderList(search: widget.search),
+              child: FolderList(search: widget.search, path: widget.path),
             ),
-            Divider(),
+            const Divider(),
             StreamProvider<List<Snippet>?>.value(
               value: _db.snippets,
               initialData: null,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 14.0),
-                child: SnippetList(search: widget.search),
+                child: SnippetList(search: widget.search, path: widget.path),
               ),
             ),
           ],

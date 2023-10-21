@@ -55,6 +55,16 @@ class SelectedFoldersProvider extends ChangeNotifier {
   }
 }
 
+class MySnippetsPathProvider extends ChangeNotifier {
+  String path = "/";
+
+  void setPath(String newPath) {
+    path = newPath;
+    AppData.mySnippetsPath = newPath;
+    notifyListeners();
+  }
+}
+
 class ThemeProvider extends ChangeNotifier {
   // TODO: Save theme the user selected
   ThemeMode selectedTheme = ThemeMode.system;
@@ -119,6 +129,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => SelectedSnippetsProvider()),
         ChangeNotifierProvider(create: (context) => SelectedFoldersProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => MySnippetsPathProvider())
       ],
       child: const MyApp(),
     )

@@ -53,7 +53,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   var tabs = [
-    MySnippets(search: ""),
+    Consumer<MySnippetsPathProvider>(
+      builder: (context, pa, _) => MySnippets(search: "", path: pa.path),
+    ),
     const Feed(),
     const AI(),
     const Settings(),
@@ -103,6 +105,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return _updateConnectionStatus(result);
   }
 
+  var _noInternetDialogOpen = false;
+  BuildContext? _dContext;
+
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     print("Connection status changed: $result");
     setState(() {
@@ -110,8 +115,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     });
     if (_connectionStatus == ConnectivityResult.none) {
       showNoInternetDialog();
+      _noInternetDialogOpen = true;
     }
+    if ((_connectionStatus == ConnectivityResult.wifi || _connectionStatus == ConnectivityResult.mobile) && _noInternetDialogOpen) {
+      if (_dContext != null) {
+        Navigator.of(_dContext!).pop();
+      }
+      _noInternetDialogOpen= false;
+      _dContext = null;
+    }
+
   }
+
+  var mySnippetPathNotifier = MySnippetsPathProvider();
 
   @override
   void initState() {
@@ -308,6 +324,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     ];
 
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final selectedFoldersProvider = Provider.of<SelectedFoldersProvider>(context);
+    final mySnippetsPathProvider = Provider.of<MySnippetsPathProvider>(context);
 
     return WillPopScope(
       onWillPop: () async {
@@ -315,6 +333,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           setState(() {
             selectedSnippetsProvider.unselectAllSnippets();
           });
+          return false;
+        }
+        if (selectedFoldersProvider.selectedFolders.isNotEmpty) {
+          setState(() {
+            selectedFoldersProvider.unselectAllFolders();
+          });
+          return false;
+        }
+        if (AppData.mySnippetsPath != "/") {
+          print(AppData.mySnippetsPath);
+          String newPath = AppData.mySnippetsPath.substring(0, AppData.mySnippetsPath.lastIndexOf('/'));
+          if (newPath == "") {
+            newPath = "/";
+          }
+          mySnippetsPathProvider.setPath(newPath);
           return false;
         }
         return true;
@@ -433,26 +466,30 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   );
 
   Future showNoInternetDialog() => showDialog(
+      useRootNavigator: false,
       context: context,
-      builder: (context) => AlertDialog(
-        icon: const Icon(CupertinoIcons.wifi_slash),
-        actionsAlignment: MainAxisAlignment.spaceEvenly,
-        //title: const Text("Delete Snippets"),
-        content: const Text("You are not connected to the internet!\nSome functions might not be available",
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            style: ElevatedButton.styleFrom(
-              //backgroundColor: Colors.grey,
-            ),
-            child: const Text("OK"),
+      builder: (context) {
+        _dContext = context;
+        return AlertDialog(
+          icon: const Icon(CupertinoIcons.wifi_slash),
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
+          //title: const Text("Delete Snippets"),
+          content: const Text("You are not connected to the internet!\nSome functions might not be available",
+            textAlign: TextAlign.center,
           ),
-        ],
-      )
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                //backgroundColor: Colors.grey,
+              ),
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      }
   );
 }
 
@@ -484,12 +521,16 @@ class SnippetSearchBar extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return MySnippets(search: query.toLowerCase());
+    return Consumer<MySnippetsPathProvider>(
+      builder: (context, pa, _) => MySnippets(search: query.toLowerCase(), path: pa.path),
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return MySnippets(search: query.toLowerCase());
+    return Consumer<MySnippetsPathProvider>(
+      builder: (context, pa, _) => MySnippets(search: query.toLowerCase(), path: pa.path),
+    );
   }
 
 }
