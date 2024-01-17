@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_app/main.dart';
+import 'package:mobile_app/models/folder.dart';
 import 'package:mobile_app/screens/home/MySnippetsTab/add_snippet.dart';
 import 'package:mobile_app/screens/home/MySnippetsTab/edit_snippet.dart';
 import 'package:mobile_app/screens/home/SettingsTab/settings.dart';
@@ -113,7 +114,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     setState(() {
       _connectionStatus = result;
     });
-    if (_connectionStatus == ConnectivityResult.none) {
+    if (_connectionStatus == ConnectivityResult.none && !_noInternetDialogOpen) {
       showNoInternetDialog();
       _noInternetDialogOpen = true;
     }
@@ -148,6 +149,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final selectedSnippetsProvider = Provider.of<SelectedSnippetsProvider>(context);
+    final selectedFoldersProvider = Provider.of<SelectedFoldersProvider>(context);
+    final mySnippetsPathProvider = Provider.of<MySnippetsPathProvider>(context);
 
     void showAddFolderPage() {
       Navigator.of(context).push(
@@ -271,7 +274,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
           IconButton(
             onPressed: () {
-              showDeleteDialog(_db, selectedSnippetsProvider);
+              showDeleteDialog(_db, selectedSnippetsProvider, selectedFoldersProvider);
             },
             icon: const Icon(
               Icons.delete,
@@ -281,7 +284,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ] : [
           IconButton(
             onPressed: () {
-              showDeleteDialog(_db, selectedSnippetsProvider);
+              showDeleteDialog(_db, selectedSnippetsProvider, selectedFoldersProvider);
             },
             icon: const Icon(
               Icons.delete,
@@ -302,7 +305,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
           IconButton(
             onPressed: () {
-              showDeleteDialog(_db, selectedSnippetsProvider);
+              showDeleteDialog(_db, selectedSnippetsProvider, selectedFoldersProvider);
             },
             icon: const Icon(
               Icons.delete,
@@ -312,7 +315,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ] : [
           IconButton(
             onPressed: () {
-              showDeleteDialog(_db, selectedSnippetsProvider);
+              showDeleteDialog(_db, selectedSnippetsProvider, selectedFoldersProvider);
             },
             icon: const Icon(
               Icons.delete,
@@ -321,11 +324,38 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ]
       ),
-    ];
+      AppBar(       // Single folder selected app bar
+        title: Text("Selected (${selectedFoldersProvider.selectedFolders.length})"),
+        centerTitle: false,
+        actions: selectedFoldersProvider.selectedFolders.length == 1 ? [
+          IconButton(
+            onPressed: () {
 
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final selectedFoldersProvider = Provider.of<SelectedFoldersProvider>(context);
-    final mySnippetsPathProvider = Provider.of<MySnippetsPathProvider>(context);
+            },
+            icon: const Icon(Icons.edit),
+          ),
+          IconButton(
+            onPressed: () {
+              showDeleteDialog(_db, selectedSnippetsProvider, selectedFoldersProvider);
+            },
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.red,
+            ),
+          )
+        ] : [
+          IconButton(
+            onPressed: () {
+              showDeleteDialog(_db, selectedSnippetsProvider, selectedFoldersProvider);
+            },
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.red,
+            ),
+          )
+        ],
+      )
+    ];
 
     return WillPopScope(
       onWillPop: () async {
@@ -354,7 +384,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       },
       child: Scaffold(
         extendBody: true,
-        appBar: _selectedTab == 0 || _selectedTab == 1 ? selectedSnippetsProvider.selectedSnippets.isEmpty ? appBars[_selectedTab == 0 ? 0 : 1] : (selectedSnippetsProvider.selectedSnippets.length > 1 ? appBars[5] : appBars[4]) : appBars[_selectedTab],
+        appBar: _selectedTab == 0 && selectedFoldersProvider.selectedFolders.isNotEmpty ? appBars[6] : _selectedTab == 0 || _selectedTab == 1 ? selectedSnippetsProvider.selectedSnippets.isEmpty ? appBars[_selectedTab == 0 ? 0 : 1] : (selectedSnippetsProvider.selectedSnippets.length > 1 ? appBars[5] : appBars[4]) : appBars[_selectedTab],
         bottomNavigationBar: _buildFloatingBar(context),
         body: _selectedTab == 2 && _connectionStatus == ConnectivityResult.none ? const Center(child: Text("You are not connected to the internet!"),) : tabs[_selectedTab],
         /*floatingActionButton: FloatingActionButton(
@@ -417,16 +447,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  Future showDeleteDialog(DatabaseService db, SelectedSnippetsProvider selectedSnippetsProvider) => showDialog(
+  Future showDeleteDialog(DatabaseService db, SelectedSnippetsProvider selectedSnippetsProvider, SelectedFoldersProvider selectedFoldersProvider) => showDialog(
     context: context,
     builder: (context) => AlertDialog(
       icon: const Icon(Icons.delete),
       actionsAlignment: MainAxisAlignment.spaceEvenly,
       //title: const Text("Delete Snippets"),
       content: Text(
-        (selectedSnippetsProvider.selectedSnippets.length > 1 ?
+        selectedSnippetsProvider.selectedSnippets.isNotEmpty ? (selectedSnippetsProvider.selectedSnippets.length > 1 ?
           "Are you sure you want to delete the selected Snippets?\nThey can't be restored." :
             "Are your sure you want to delete the selected Snippet?\nIt can't be restored."
+        ) : (selectedFoldersProvider.selectedFolders.length > 1 ?
+          "Are you sure you want to delete the selected Folders?\nAll Snippets inside the folder will also be deleted." :
+            "Are you sure you want to delete the selected Folder?\nAll Snippets inside the folders will also be deleted."
         ),
         textAlign: TextAlign.center,
       ),
@@ -434,9 +467,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ElevatedButton(
           onPressed: () async {
             if (_selectedTab == 0) {
-              for (String snip in selectedSnippetsProvider.selectedSnippets) {
-                await db.deleteSnippets(snip);
-              } 
+              if (selectedSnippetsProvider.selectedSnippets.isNotEmpty) {
+                for (String snip in selectedSnippetsProvider.selectedSnippets) {
+                  await db.deleteSnippets(snip);
+                }
+              }
+              else {
+                for (String folder in selectedFoldersProvider.selectedFolders) {
+                  await db.removeFolder(folder, AppData.mySnippetsPath);
+                }
+              }
             }
             else if (_selectedTab == 1) {
               for (String snip in selectedSnippetsProvider.selectedSnippets) {
@@ -444,6 +484,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               }
             }
             selectedSnippetsProvider.unselectAllSnippets();
+            selectedFoldersProvider.unselectAllFolders();
             Navigator.of(context).pop();
           },
           style: ElevatedButton.styleFrom(

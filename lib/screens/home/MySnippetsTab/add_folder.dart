@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/shared/app_data.dart';
 
 import '../../../services/auth.dart';
 import '../../../services/database.dart';
@@ -19,11 +20,11 @@ class _AddFolderState extends State<AddFolder> {
 
   String _name = "";
   String _color = "blue";
-  String _path = "/";
+  final String _path = AppData.mySnippetsPath;
   List<String> _folders = [];
 
   void _loadFolders() async {
-    _folders = await _db.getFolderNames(_auth.userId!);
+    _folders = await _db.getFolderNames(_auth.userId!, _path);
   }
 
   void _saveFolder() async {

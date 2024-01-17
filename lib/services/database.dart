@@ -291,12 +291,14 @@ class DatabaseService {
     return tokenList;
   }
 
-  Future<List<String>> getFolderNames(String userId) async {
+  Future<List<String>> getFolderNames(String userId, String path) async {
     DocumentSnapshot snapshot = await usersCollection.doc(userId).get();
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     List<String> folders = [];
     for (var folder in data["folders"]) {
-      folders.add(folder["name"]!);
+      if (folder["path"] == path) {
+        folders.add(folder["name"]!);
+      }
     }
     return folders;
   }
@@ -350,6 +352,19 @@ class DatabaseService {
       });
     } catch (e) {
       print("Couldn't add folder: $e");
+    }
+  }
+
+  Future removeFolder(String folderName, String folderPath) async {
+    try {
+      List<Map<String, String>> folders = await getFolders(uid);
+      folders.removeWhere((element) => element["name"] == folderName && element["path"] == folderPath);
+      // TODO: Delete snippets that the folder contained
+      return await usersCollection.doc(uid).update({
+        "folders": folders
+      });
+    } catch (e) {
+      print("Couldn't remove folder: $e");
     }
   }
 

@@ -66,7 +66,6 @@ class MySnippetsPathProvider extends ChangeNotifier {
 }
 
 class ThemeProvider extends ChangeNotifier {
-  // TODO: Save theme the user selected
   ThemeMode selectedTheme = ThemeMode.system;
 
   void setTheme(String theme) async {
