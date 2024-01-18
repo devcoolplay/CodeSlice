@@ -355,11 +355,21 @@ class DatabaseService {
     }
   }
 
+  Future<List<Object?>> getToDeleteSnippets(String folderPath) async {
+    //List<Map<String, String>>
+    QuerySnapshot querySnapshot = await userDataCollection.get();
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    print(allData[4]);
+    final snips = allData.where((snip) => snip?["path"] == folderPath)
+    return allData;
+  }
+
   Future removeFolder(String folderName, String folderPath) async {
+    getToDeleteSnippets(folderPath);
     try {
       List<Map<String, String>> folders = await getFolders(uid);
       folders.removeWhere((element) => element["name"] == folderName && element["path"] == folderPath);
-      // TODO: Delete snippets that the folder contained
+      // TODO: Delete snippets that the folder contains (Check what snippets and other folder are inside it and delete them as well)
       return await usersCollection.doc(uid).update({
         "folders": folders
       });
