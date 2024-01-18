@@ -355,21 +355,39 @@ class DatabaseService {
     }
   }
 
-  Future<List<Object?>> getToDeleteSnippets(String folderPath) async {
-    //List<Map<String, String>>
+  Future<List> getToDeleteSnippetIDs(String folderPath) async {
     QuerySnapshot querySnapshot = await userDataCollection.get();
-    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-    print(allData[4]);
-    final snips = allData.where((snip) => snip?["path"] == folderPath)
-    return allData;
+    final allData = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      data['id'] = doc.id;
+      return data;
+    }).toList();
+    final snips = allData.where((snip) => snip["path"] == folderPath).toList();
+    final documentIds = snips.map((snip) => snip["id"]).toList();
+    return documentIds;
+  }
+  
+  Future<List<Map<String, String>>> getToDeleteFolders(String path) async {
+    List<Map<String, String>> folders = await getFolders(uid);
+    return folders.where((folder) => folder["path"] == path).toList();
   }
 
   Future removeFolder(String folderName, String folderPath) async {
-    getToDeleteSnippets(folderPath);
     try {
+      // Delete folders contained in the folder
+      final toDeleteFolders = await getToDeleteFolders(folderPath != "/" ? "$folderPath/$folderName" : folderPath + folderName);
+      print(toDeleteFolders);
+      for (int i = 0; i < toDeleteFolders.length; i++) {
+        await removeFolder(toDeleteFolders[i]["name"]!, toDeleteFolders[i]["path"]!);
+      }
+      // Delete snippets contained in the folder
+      final toDeleteSnippets = await getToDeleteSnippetIDs(folderPath != "/" ? "$folderPath/$folderName" : folderPath + folderName);
+      for (int i = 0; i < toDeleteSnippets.length; i++) {
+        await deleteSnippets(toDeleteSnippets[i]);
+      }
+      // Delete folder itself
       List<Map<String, String>> folders = await getFolders(uid);
       folders.removeWhere((element) => element["name"] == folderName && element["path"] == folderPath);
-      // TODO: Delete snippets that the folder contains (Check what snippets and other folder are inside it and delete them as well)
       return await usersCollection.doc(uid).update({
         "folders": folders
       });
