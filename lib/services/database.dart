@@ -223,6 +223,13 @@ class DatabaseService {
     });
   }
 
+  // Update snippet path
+  Future updateSnippetPath(String id, String newPath) async {
+    return await userDataCollection.doc(id).update({
+      "path": newPath
+    });
+  }
+
   // Delete Snippet from database
   Future<void> deleteSnippets(String id) async {
     try {
@@ -355,7 +362,7 @@ class DatabaseService {
     }
   }
 
-  Future<List> getToDeleteSnippetIDs(String folderPath) async {
+  Future<List> getToChangeSnippetIDs(String folderPath) async {
     QuerySnapshot querySnapshot = await userDataCollection.get();
     final allData = querySnapshot.docs.map((doc) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -367,7 +374,7 @@ class DatabaseService {
     return documentIds;
   }
   
-  Future<List<Map<String, String>>> getToDeleteFolders(String path) async {
+  Future<List<Map<String, String>>> getToChangeFolders(String path) async {
     List<Map<String, String>> folders = await getFolders(uid);
     return folders.where((folder) => folder["path"] == path).toList();
   }
@@ -375,13 +382,13 @@ class DatabaseService {
   Future removeFolder(String folderName, String folderPath) async {
     try {
       // Delete folders contained in the folder
-      final toDeleteFolders = await getToDeleteFolders(folderPath != "/" ? "$folderPath/$folderName" : folderPath + folderName);
+      final toDeleteFolders = await getToChangeFolders(folderPath != "/" ? "$folderPath/$folderName" : folderPath + folderName);
       print(toDeleteFolders);
       for (int i = 0; i < toDeleteFolders.length; i++) {
         await removeFolder(toDeleteFolders[i]["name"]!, toDeleteFolders[i]["path"]!);
       }
       // Delete snippets contained in the folder
-      final toDeleteSnippets = await getToDeleteSnippetIDs(folderPath != "/" ? "$folderPath/$folderName" : folderPath + folderName);
+      final toDeleteSnippets = await getToChangeSnippetIDs(folderPath != "/" ? "$folderPath/$folderName" : folderPath + folderName);
       for (int i = 0; i < toDeleteSnippets.length; i++) {
         await deleteSnippets(toDeleteSnippets[i]);
       }

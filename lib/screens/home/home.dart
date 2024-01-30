@@ -29,6 +29,7 @@ import '../../services/database.dart';
 import '../../shared/friends_list.dart';
 import 'CommunityTab/community.dart';
 import 'MySnippetsTab/add_folder.dart';
+import 'MySnippetsTab/edit_folder.dart';
 import 'SnippetGeneratorTab/ai.dart';
 import 'package:mobile_app/screens/home/MySnippetsTab/my_snippets.dart';
 
@@ -165,6 +166,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     void showEditSnippetPage() {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => EditSnippet(snippetId: selectedSnippetsProvider.selectedSnippets[0]))
+      );
+    }
+    void showEditFolderPage() {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => EditFolder(currentName: selectedFoldersProvider.selectedFolders[0]))
       );
     }
     void showSharePanel() {
@@ -325,12 +331,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ]
       ),
       AppBar(       // Single folder selected app bar
-        title: Text("Selected (${selectedFoldersProvider.selectedFolders.length})"),
+        title: Text("Select (${selectedFoldersProvider.selectedFolders.length})"),
         centerTitle: false,
         actions: selectedFoldersProvider.selectedFolders.length == 1 ? [
           IconButton(
             onPressed: () {
-
+              showEditFolderPage();
             },
             icon: const Icon(Icons.edit),
           ),
