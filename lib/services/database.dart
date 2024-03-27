@@ -230,6 +230,30 @@ class DatabaseService {
     });
   }
 
+  Future updateFolderPath(prevPath, newPath, name) async {
+    final folders = await getFolders(uid);
+    for (int i = 0; i < folders.length; i++) {
+      if (folders[i]["name"] == name && folders[i]["path"] == prevPath) {
+        folders[i]["path"] = newPath;
+      }
+    }
+    return await usersCollection.doc(uid).update({
+      "folders": folders
+    });
+  }
+
+  Future updateFolderName(path, prevName, newName) async {
+    final folders = await getFolders(uid);
+    for (int i = 0; i < folders.length; i++) {
+      if (folders[i]["name"] == prevName && folders[i]["path"] == path) {
+        folders[i]["name"] = newName;
+      }
+    }
+    return await usersCollection.doc(uid).update({
+      "folders": folders
+    });
+  }
+
   // Delete Snippet from database
   Future<void> deleteSnippets(String id) async {
     try {

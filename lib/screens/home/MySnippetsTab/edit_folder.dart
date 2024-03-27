@@ -30,11 +30,16 @@ class _EditFolderState extends State<EditFolder> {
   }
 
   void _saveFolder() async {
-    // TODO: New logic for updating a folders name
+    // TODO: toChangeFolers somehow aren't changing their path
     final toUpdateSnippets = await _db.getToChangeSnippetIDs(_path != "/" ? "$_path/${widget.currentName}" : _path + widget.currentName);
+    final getToChangeFolders = await _db.getToChangeFolders(_path != "/" ? "$_path/${widget.currentName}" : _path + widget.currentName);
     for (int i = 0; i < toUpdateSnippets.length; i++) {
-      //_db.updateSnippetPath(toUpdateSnippets[i], );
+      _db.updateSnippetPath(toUpdateSnippets[i], _path != "/" ? "$_path/$_name" : _path + _name);
     }
+    for (int i = 0; i < getToChangeFolders.length; i++) {
+      _db.updateFolderPath(_path != "/" ? "$_path/${widget.currentName}" : _path + widget.currentName, _path != "/" ? "$_path/$_name" : _path + _name, getToChangeFolders[i]["name"]);
+    }
+    _db.updateFolderName(_path, widget.currentName, _name);
     /*try {
       await _db.addFolder(_name, _color, _path);
     } catch (e) {
